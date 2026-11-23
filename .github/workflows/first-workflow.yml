@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: checkout source code
-        run: actions/checkout@4
+        usage: actions/checkout@4
 
       - name: Print current date
         run: date
