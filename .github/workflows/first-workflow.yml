@@ -1,3 +1,4 @@
+
 name: My First GitHub Actions Workflow
 
 on:
@@ -10,14 +11,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: checkout source code
-        usage: actions/checkout@4
+      - name: Checkout source code
+        uses: actions/checkout@v4
 
       - name: Print current date
         run: date
 
       - name: Display files
         run: ls -la
-      
-      - name: Completion message
+
+      - name: Display files with details
         run: ls -lrth
