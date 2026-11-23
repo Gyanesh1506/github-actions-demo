@@ -10,8 +10,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Print welcome message
-        run: echo "Hello! My first GitHub Actions workflow is running."
+      - name: checkout source code
+        run: actions/checkout@4
 
       - name: Print current date
         run: date
