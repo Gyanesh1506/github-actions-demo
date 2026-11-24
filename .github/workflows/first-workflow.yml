@@ -52,4 +52,4 @@ jobs:
 
       # Step 10: finding path of pom.xml
       - name: Finding path of pom.xml
-        run: find / -name pom.xml
+        run: find . -name pom.xml
