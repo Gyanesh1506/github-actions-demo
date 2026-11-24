@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout source code
+      # Step 1: Checkout enterprise-app repository
       - name: Checkout source code
         uses: actions/checkout@v4
         with:
@@ -36,30 +36,18 @@ jobs:
       - name: Display current directory
         run: pwd
 
-      # Step 6: Display repository files
-      - name: Display repository files
+      # Step 6: Display workspace files
+      - name: Display workspace files
         run: ls -la
 
-      # Step 7: Locate pom.xml
-      - name: Find Maven project
-        run: find . -name pom.xml
+      # Step 7: Display application files
+      - name: Display application files
+        run: ls -la ./enterprise-app
 
-      # Step 8: Display files with details
-      - name: Display files with details
-        run: ls -lrth
+      # Step 8: Locate pom.xml
+      - name: Find Maven project
+        run: find ./enterprise-app -name pom.xml -print
 
       # Step 9: Completion message
       - name: Completion message
         run: echo "Repository inspection completed successfully!"
-      
-      # Step 10: Finding current directory
-      - name: current directory
-        run: pwd
-
-      # Step 11: Finding files inside current directory
-      - name: files are
-        run: ls -la
-
-      # Step 10: finding path of pom.xml
-      - name: Finding path of pom.xml
-        run: find . -name pom.xml
