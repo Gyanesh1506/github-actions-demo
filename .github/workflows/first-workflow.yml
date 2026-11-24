@@ -49,6 +49,14 @@ jobs:
       # Step 9: Completion message
       - name: Completion message
         run: echo "Repository inspection completed successfully!"
+      
+      # Step 10: Finding current directory
+      - name: current directory
+        run: pwd
+
+      # Step 11: Finding files inside current directory
+      - name: files are
+        run: ls -la
 
       # Step 10: finding path of pom.xml
       - name: Finding path of pom.xml
