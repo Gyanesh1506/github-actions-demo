@@ -43,8 +43,10 @@ jobs:
       
       # step 8 : checking maven version
       - name: checking maven version
+        working-directory: ./enterprise-app
         run: mvn -version
       
       # step 9 : Build application
       - name: Building application
         run:  mvn clean package
+
