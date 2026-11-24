@@ -49,3 +49,7 @@ jobs:
       # Step 9: Completion message
       - name: Completion message
         run: echo "Repository inspection completed successfully!"
+
+      # Step 10: finding path of pom.xml
+      - name: Finding path of pom.xml
+        run: find / -name pom.xml
