@@ -1,3 +1,4 @@
+
 name: My First GitHub Actions Workflow
 
 on:
@@ -21,32 +22,30 @@ jobs:
           distribution: temurin
           java-version: '21'
 
-      # Step 3: Print current date
-      - name: Print current date
-        run: date
-
-      # Step 4: Display files
-      - name: Display files
-        run: ls -la
-
-      # Step 5: Display files with details
-      - name: Display files with details
-        run: ls -lrth
-
-      # Step 6: Verify Java installation
+      # Step 3: Check Java version
       - name: Check Java version
         run: java -version
 
-      # Step 7: Completion message
-      - name: Completion message
-        run: echo "GitHub Actions workflow completed successfully!"
-      
-      # step 8 : checking maven version
-      - name: checking maven version
-        working-directory: ./enterprise-app
+      # Step 4: Check Maven version
+      - name: Check Maven version
         run: mvn -version
-      
-      # step 9 : Build application
-      - name: Building application
-        run:  mvn clean package
 
+      # Step 5: Display current directory
+      - name: Display current directory
+        run: pwd
+
+      # Step 6: Display repository files
+      - name: Display repository files
+        run: ls -la
+
+      # Step 7: Locate pom.xml
+      - name: Find Maven project
+        run: find . -name pom.xml
+
+      # Step 8: Display files with details
+      - name: Display files with details
+        run: ls -lrth
+
+      # Step 9: Completion message
+      - name: Completion message
+        run: echo "Repository inspection completed successfully!"
