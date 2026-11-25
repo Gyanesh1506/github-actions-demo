@@ -1,30 +1,35 @@
-name: My First GitHub Actions Workflow
+
+name: Enterprise App CI Pipeline
 
 on:
   push:
     branches:
       - master
 
+permissions:
+  contents: read
+
 jobs:
-  first-job:
+  build-and-push:
     runs-on: ubuntu-latest
-      services:
+
+    services:
       postgres:
         image: postgres:16
         env:
           POSTGRES_DB: enterprise_db
           POSTGRES_USER: appuser
-          POSTGRES_PASSWORD: postgres123
+          POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD }}
         ports:
           - 5432:5432
         options: >-
-          --health-cmd pg_isready
+          --health-cmd "pg_isready -U appuser -d enterprise_db"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
 
     steps:
-      # Step 1: Checkout enterprise-app repository
+      # Step 1: Checkout application source code
       - name: Checkout source code
         uses: actions/checkout@v4
         with:
@@ -37,36 +42,28 @@ jobs:
         with:
           distribution: temurin
           java-version: '21'
+          cache: maven
 
-      # Step 3: Check Java version
-      - name: Check Java version
-        run: java -version
-
-      # Step 4: Check Maven version
-      - name: Check Maven version
-        run: mvn -version
-
-      # Step 5: Display current directory
-      - name: Display current directory
-        run: pwd
-
-      # Step 6: Display workspace files
-      - name: Display workspace files
-        run: ls -la
-
-      # Step 7: Display application files
-      - name: Display application files
-        run: ls -la ./enterprise-app
-
-      # Step 8: Locate pom.xml
-      - name: Find Maven project
-        run: find ./enterprise-app -name pom.xml -print
-
-      # Step 9: Completion message
-      - name: Completion message
-        run: echo "Repository inspection completed successfully!"
-
-      # Step 10: building maven pkg
-      - name: Building maven pkg
+      # Step 3: Build application using Maven
+      - name: Build application
         working-directory: ./enterprise-app
+        env:
+          DB_URL: jdbc:postgresql://localhost:5432/enterprise_db
+          DB_USERNAME: appuser
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
         run: mvn clean package
+
+      # Step 4: Login to Docker Hub
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # Step 5: Build and Push Docker Image
+      - name: Build and Push Docker Image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./enterprise-app
+          push: true
+          tags: gyan1506/enterprise-app:latest
